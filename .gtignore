@@ -1,0 +1,6 @@
+.gitignore
+README.md
+.gtignore
+LICENSE
+go.mod
+go.work
