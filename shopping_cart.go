@@ -6,19 +6,25 @@ import (
 	"strings"
 )
 
+var discounts = map[string]float64{
+	"Regular": 0,
+	"Member":  10,
+	"VIP":     20,
+}
+
+var shippingCosts = map[string]int{
+	"Electronics": 10,
+	"Books":       0,
+	"Clothing":    5,
+}
+
 func Handle(input string) {
 	parts := strings.Split(input, " ")
 
 	customer := parts[0]
 
-	discount := 0.0
-	if customer == "Regular" {
-		discount = 0
-	} else if customer == "Member" {
-		discount = 10
-	} else if customer == "VIP" {
-		discount = 20
-	} else {
+	discount, ok := discounts[customer]
+	if !ok {
 		fmt.Println("INVALID CUSTOMER TYPE")
 		return
 	}
@@ -33,18 +39,14 @@ func Handle(input string) {
 		price, _ := strconv.Atoi(item[1])
 		quantity, _ := strconv.Atoi(item[2])
 
-		subtotal += float64(price * quantity)
-
-		if category == "Electronics" {
-			shipping += 10 * quantity
-		} else if category == "Books" {
-			shipping += 0
-		} else if category == "Clothing" {
-			shipping += 5 * quantity
-		} else {
+		shippingCost, ok := shippingCosts[category]
+		if !ok {
 			fmt.Println("INVALID CATEGORY")
 			return
 		}
+
+		subtotal += float64(price * quantity)
+		shipping += shippingCost * quantity
 	}
 
 	total := subtotal - (subtotal * discount / 100)
