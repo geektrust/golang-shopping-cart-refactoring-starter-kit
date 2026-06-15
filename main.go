@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
 
@@ -16,12 +19,12 @@ func main() {
 		"Gold Books:20:1",
 		"Regular Toys:30:2",
 	}
-	args := []string{} // Replace with os.Args[1:] in actual usage
-	if len(args) == 0 {
+
+	if len(os.Args) == 0 {
 		fmt.Println("Arguments are required to run the program.")
 		return
 	}
-	input := args[0]
+	input := os.Args[1]
 	for _, order := range orders {
 		if order == input {
 			Handle(order)
